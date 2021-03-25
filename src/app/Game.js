@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { InputLabel } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
+import { TimelineSharp } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -35,25 +36,26 @@ const useStyles = makeStyles((theme) => ({
 export default function Game(props) {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
-    const [slots, setSlots] = useState({firstSlot: null, secondSlot: null, thirdSlot: null});
+    const [slots, setSlots] = useState({ firstSlot: null, secondSlot: null, thirdSlot: null });
     const [row, setRow] = useState({
         slotOne: null,
         slotTwo: null,
         slotThree: null,
         time: ''
-      })
+    })
 
     const handleOpen = () => {
         setOpen(true);
+        props.setAuth(true);
     };
 
     const handleClose = () => {
         setOpen(false);
-        setSlots({firstSlot: null, secondSlot: null, thirdSlot: null})
+        setSlots({ firstSlot: null, secondSlot: null, thirdSlot: null })
     };
 
     const debugSlots = () => {
-        setSlots({firstSlot: 7, secondSlot: 7, thirdSlot: 7})
+        setSlots({ firstSlot: 7, secondSlot: 7, thirdSlot: 7 })
     }
 
     const addNewResult = () => {
@@ -61,12 +63,12 @@ export default function Game(props) {
         props.setRows(prevState => [...prevState, row])
     }
 
-    const playSlots = () => {
+    const playSlots = (e) => {
         props.setBalance(prevState => prevState - 1);
         const firstNum = Math.floor(Math.random() * 9);
         const secondNum = Math.floor(Math.random() * 9);
         const thirdNum = Math.floor(Math.random() * 9);
-        setSlots({firstSlot: firstNum, secondSlot: secondNum, thirdSlot: thirdNum});
+        setSlots({ firstSlot: firstNum, secondSlot: secondNum, thirdSlot: thirdNum });
         if (slots.firstSlot === slots.secondSlot || slots.secondSlot === slots.thirdSlot) {
             props.setBalance(prevState => prevState + 0.5);
         } else if (slots.firstSlot === slots.secondSlot && slots.firstSlot === slots.thirdSlot) {
@@ -74,12 +76,14 @@ export default function Game(props) {
         } else if (slots.firstSlot === 7 && slots.secondSlot === 7 && slots.thirdSlot) {
             props.setBalance(prevState => prevState + 10);
         }
+        let time = new Date().toLocaleTimeString();
         debugger
-        setRow({    
+        setRow({
             slotOne: firstNum,
             slotTwo: secondNum,
             slotThree: thirdNum,
-            time: new Date.toLocaleTimeString()})
+            time: time
+        })
         addNewResult();
     }
 
@@ -103,8 +107,8 @@ export default function Game(props) {
                 <Fade in={open}>
                     <div className={classes.paper}>
                         <h2 id="transition-modal-title">Game</h2>
-                        <p id="transition-modal-description" style={{marginBottom: '4em'}}>Spin the wheel and try your luck</p>
-                        <Grid container direction="row" style={{textAlign:'center'}} spacing={3}>
+                        <p id="transition-modal-description" style={{ marginBottom: '4em' }}>Spin the wheel and try your luck</p>
+                        <Grid container direction="row" style={{ textAlign: 'center' }} spacing={3}>
                             <Grid item xs={4}>
                                 <InputLabel htmlFor="readOnly-input" >Slot 1</InputLabel>
                                 <TextField
@@ -142,7 +146,7 @@ export default function Game(props) {
                                 />
                             </Grid>
                             <Grid item xs={4}>
-                                <Button variant='outlined'fullWidth color="primary" onClick={playSlots}>Play</Button>
+                                <Button variant='outlined' fullWidth color="primary" onClick={playSlots}>Play</Button>
                             </Grid>
                             <Grid item xs={4}>
                                 <Button variant='outlined' fullWidth color='inherit' onClick={debugSlots}>Debugger</Button>

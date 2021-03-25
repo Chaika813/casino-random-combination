@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Header(props) {
   const classes = useStyles();
-  const [auth, setAuth] = useState(false);
+  
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
@@ -45,18 +45,18 @@ export default function Header(props) {
       const foundBalance = JSON.parse(loggedBalance);
       props.setUsername(foundUser);
       props.setBalance(foundBalance); 
-      setAuth(true);
+      props.setAuth(true);
     }
   }, []);
 
   const handleChange = (e) => {
-    if (!auth) {
-      setAuth(e.target.checked);
+    if (!props.auth) {
+      props.setAuth(e.target.checked);
       localStorage.setItem('user', props.username);
       localStorage.setItem(`balance`, props.balance)
     } else {
       props.setUsername("Guest");
-      setAuth(false);
+      props.setAuth(false);
       props.setBalance(10);
       props.setRows([])
       localStorage.clear();
@@ -82,17 +82,17 @@ export default function Header(props) {
           </Typography>
           <FormGroup className={classes.form}   >
             <FormControlLabel
-              control={<Switch checked={auth}  onChange={handleChange} aria-label="login switch" />}
-              label={auth ? 'Logout' : 'Login'}
+              control={<Switch checked={props.auth}  onChange={handleChange} aria-label="login switch" />}
+              label={props.auth ? 'Logout' : 'Login'}
             />
-            {auth ? null :
+            {props.auth ? null :
               <div>
                 <InputLabel htmlFor="account-name-input">Enter your name</InputLabel>
                 <Input id="account-name-input" value={props.username} onChange={handleChangeUsername}/>
               </div>
             }
           </FormGroup>
-          {auth &&
+          {props.auth &&
             (<div>
               <IconButton
                 aria-label="account of current user"

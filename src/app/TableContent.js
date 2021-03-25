@@ -40,10 +40,11 @@ export default function TableContent(props) {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+  console.log(props.rows)
 
   return (
     <Container className={classes.root}>
-      <Game setBalance={props.setBalance} setRows={props.setRows} />
+      <Game setBalance={props.setBalance} setRows={props.setRows} setAuth={props.setAuth}/>
     <Paper className={classes.paper}>
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table">
@@ -58,9 +59,8 @@ export default function TableContent(props) {
           </TableHead>
           <TableBody>
             {props.rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, idx) => {
-              idx=+1
               return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                <TableRow hover role="checkbox" tabIndex={-1} key={props.username + '-' + idx}>
                       <TableCell >
                         {props.username + '-' + idx}
                       </TableCell>
