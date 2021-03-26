@@ -34,12 +34,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Header(props) {
   const classes = useStyles();
-  
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
     const loggedBalance = localStorage.getItem(`balance`);
-    debugger
     if (loggedInUser && loggedBalance) {
       const foundUser = loggedInUser;
       const foundBalance = JSON.parse(loggedBalance);
@@ -67,8 +65,6 @@ export default function Header(props) {
   const handleChangeUsername = (e) => {
     props.setUsername(e.target.value);
   }
-
-
 
   return (
     <div className={classes.root}>

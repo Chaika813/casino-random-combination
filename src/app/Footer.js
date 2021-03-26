@@ -9,7 +9,6 @@ const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
       bottom: 0,
-      position: 'fixed'
     },
 
   }));

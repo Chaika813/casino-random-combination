@@ -1,97 +1,64 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
+import { DataGrid } from '@material-ui/data-grid';
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
 import Container from '@material-ui/core/Container';
 import Game from './Game';
 
- 
-
+const columns = [
+  { field: 'id', headerName: 'ID', width: 200 },
+  {
+    field: 'slotOne',
+    headerName: 'Slot 1',
+    type: 'number',
+    width: 150,
+    sortable: false
+  },
+  {
+    field: 'slotTwo',
+    headerName: 'Slot 2',
+    type: 'number',
+    width: 150,
+    sortable: false
+  },
+  {
+    field: 'slotThree',
+    headerName: 'Slot 3',
+    type: 'number',
+    width: 150,
+    sortable: false
+  },
+  {
+    field: 'time',
+    headerName: 'Time',
+    type: 'string',
+    width: 150,
+  },
+];
 
 const useStyles = makeStyles({
   root: {
-    marginTop: '3em'
-  },
-  paper: {
-    width: '100%',
+    marginTop: '3em',
   },
   container: {
     maxHeight: 440,
   },
+  table: {
+    width: '120vh',
+    margin: 'auto',
+    marginBottom: '3em'
+  }
 });
 
-export default function TableContent(props) {
+export default function DataTable(props) {
   const classes = useStyles();
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-  console.log(props.rows)
 
   return (
     <Container className={classes.root}>
-      <Game setBalance={props.setBalance} setRows={props.setRows} setAuth={props.setAuth}/>
-    <Paper className={classes.paper}>
-      <TableContainer className={classes.container}>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="left">ID</TableCell>
-              <TableCell align="center">Slot 1</TableCell>
-              <TableCell align="center">Slot 2</TableCell>
-              <TableCell align="center">Slot 3</TableCell>
-              <TableCell align="center">Time</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {props.rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, idx) => {
-              return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={props.username + '-' + idx}>
-                      <TableCell >
-                        {props.username + '-' + idx}
-                      </TableCell>
-                      <TableCell align="center">
-                        {row.slotOne}
-                      </TableCell >
-                      <TableCell align="center">
-                        {row.slotTwo}
-                      </TableCell>
-                      <TableCell align="center">
-                        {row.slotThree}
-                      </TableCell>
-                      <TableCell align="center">
-                        {row.time}
-                      </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={props.rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
-      />
-    </Paper>
+      <Game setBalance={props.setBalance} setRows={props.setRows} setAuth={props.setAuth} />
+      <div >
+        <DataGrid className={classes.table} rows={props.rows} autoHeight  disableColumnMenu  pageSize={10} columns={columns} />
+      </div>
     </Container>
   );
 }
+

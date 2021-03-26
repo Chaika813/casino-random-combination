@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import Header from './app/Header';
 import TableContent from './app/TableContent';
@@ -33,14 +33,16 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <Header username={username} balance={balance} setUsername={addUsername} setBalance={updateBalance} setRows={updateRows} auth={auth} setAuth={checkAuth}/>
-      </header>
-      <main>
-        <TableContent username={username} setUsername={addUsername} setBalance={updateBalance} rows={rows} setRows={updateRows} setAuth={checkAuth}/>
-      </main>
-      <footer >
-      <Footer/>
+      <div className="wrapper">
+        <header className="App-header">
+          <Header username={username} balance={balance} setUsername={addUsername} setBalance={updateBalance} setRows={updateRows} auth={auth} setAuth={checkAuth} />
+        </header>
+        <main>
+          <TableContent username={username} setUsername={addUsername} setBalance={updateBalance} rows={rows} setRows={updateRows} setAuth={checkAuth} />
+        </main>
+      </div>
+      <footer className="page-footer">
+        <Footer />
       </footer>
     </div>
   );

@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { InputLabel } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
-import { TimelineSharp } from '@material-ui/icons';
+import { nanoid } from 'nanoid'
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
         color: 'blue',
     },
     slot: {
-        width: '20%',
+        width: '30%',
         textAlign: 'center'
     }
 }));
@@ -36,13 +36,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Game(props) {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
-    const [slots, setSlots] = useState({ firstSlot: null, secondSlot: null, thirdSlot: null });
-    const [row, setRow] = useState({
-        slotOne: null,
-        slotTwo: null,
-        slotThree: null,
-        time: ''
-    })
+    const [slots, setSlots] = useState({ firstSlot: 0, secondSlot: 0, thirdSlot: 0 });
 
     const handleOpen = () => {
         setOpen(true);
@@ -51,16 +45,15 @@ export default function Game(props) {
 
     const handleClose = () => {
         setOpen(false);
-        setSlots({ firstSlot: null, secondSlot: null, thirdSlot: null })
+        setSlots({ firstSlot: 0, secondSlot: 0, thirdSlot: 0 })
     };
 
     const debugSlots = () => {
         setSlots({ firstSlot: 7, secondSlot: 7, thirdSlot: 7 })
     }
 
-    const addNewResult = () => {
-        debugger
-        props.setRows(prevState => [...prevState, row])
+    const addNewResult = (newRow) => {
+        props.setRows(prevState => [...prevState, newRow])
     }
 
     const playSlots = (e) => {
@@ -77,14 +70,15 @@ export default function Game(props) {
             props.setBalance(prevState => prevState + 10);
         }
         let time = new Date().toLocaleTimeString();
-        debugger
-        setRow({
+        let id = nanoid()
+        const newRow = {
+            id: id,
             slotOne: firstNum,
             slotTwo: secondNum,
             slotThree: thirdNum,
             time: time
-        })
-        addNewResult();
+        }
+        addNewResult(newRow);
     }
 
 
